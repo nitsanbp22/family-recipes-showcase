@@ -1,8 +1,10 @@
 # Family Recipes | Shared Family Recipe Library & PWA
 
-Family Recipes is a collaborative, mobile-first product for turning scattered family recipes into a shared library that is easy to capture, organize, search, cook from, and maintain together.
+Family Recipes is a live, private family product for turning scattered recipes into a shared library that is easy to capture, organize, search, cook from, and maintain together.
 
-> **Portfolio showcase:** this repository is a curated snapshot of product thinking and selected engineering work from a private codebase. Production identifiers, credentials, private family data, deployment configuration, migration history, and operational scripts are intentionally excluded.
+The product is deployed under a custom domain and is used primarily by my family. It combines collaborative recipe management with AI-assisted intake so recipes can move from links, text, screenshots, and images into a structured library with less manual work.
+
+> **Portfolio showcase:** this repository is a curated snapshot of product thinking and selected engineering work from a private production codebase. Production identifiers, credentials, Gemini API credentials, private family data, deployment configuration, migration history, and operational scripts are intentionally excluded.
 
 ## Product problem
 
@@ -25,9 +27,11 @@ Find a recipe
    ↓
 Share link / image / text into the app
    ↓
-Normalize and detect duplicates
+Normalize source and detect duplicates
    ↓
-Review extracted recipe details
+Extract recipe structure with Gemini when relevant
+   ↓
+Review and correct the proposed result
    ↓
 Save to the family library
    ↓
@@ -50,6 +54,21 @@ The app supports multiple intake paths so saving a recipe does not depend on man
 - extensible adapters for additional intake sources
 
 A shared intake model keeps the downstream experience consistent regardless of where the recipe originated.
+
+### AI-assisted extraction with Gemini
+
+Gemini is used through a server-side API workflow to help transform unstructured recipe inputs into structured recipe data.
+
+Depending on the source, the system can work from text or images and propose fields such as:
+
+- recipe title
+- ingredients
+- preparation steps
+- supporting metadata used by the review flow
+
+The AI result is not treated as final truth. Extracted content moves through a review step before it becomes part of the family library, keeping the user in control and making uncertainty visible instead of silently saving low-confidence output.
+
+See [`docs/AI_RECIPE_INTAKE.md`](docs/AI_RECIPE_INTAKE.md).
 
 ### Searchable family knowledge
 
@@ -89,6 +108,8 @@ My work includes:
 - information architecture for recipes, categories, tags, folders, inbox, and archive
 - mobile-first Hebrew RTL UX
 - recipe capture and review flows
+- AI-assisted recipe extraction workflow using Gemini API
+- human review and correction flow for extracted content
 - family membership and permission behavior
 - duplicate-prevention rules and source normalization
 - search, filtering, favorites, and organization behavior
@@ -97,13 +118,17 @@ My work includes:
 - private storage, RLS, and authorization design
 - testing, QA, and iterative product refinement
 
-The technical implementation supports the product goal, but the main portfolio story is how a messy real-world behavior was translated into a structured, low-friction product.
+The technical implementation supports the product goal, but the main portfolio story is how a messy real-world behavior was translated into a structured, low-friction product that is actually used.
 
 ## Product decisions worth discussing
 
 ### Capture first, organize second
 
 A common failure mode in personal knowledge tools is requiring users to classify everything before saving it. Family Recipes separates quick intake from later review so the user can save first without losing context.
+
+### AI proposes, the user confirms
+
+Recipe extraction is a good fit for AI because the input is often messy and semi-structured. It is also a bad place to hide uncertainty. The product therefore uses Gemini to accelerate structuring, while preserving a review step before the recipe is accepted into the shared library.
 
 ### One intake model for multiple sources
 
@@ -130,12 +155,14 @@ Application actions and providers
         ↓
 Domain services and validation
         ↓
-Supabase repositories / protected route handlers
+AI / intake services + protected route handlers
+        ↓
+Supabase repositories
         ↓
 PostgreSQL + RLS + private Storage
 ```
 
-Sensitive actions are enforced at the server or database boundary. Recipe and family data is scoped by family membership, and private images are exposed through temporary signed URLs.
+Sensitive actions are enforced at the server or database boundary. Recipe and family data is scoped by family membership, private images are exposed through temporary signed URLs, and privileged API credentials remain server-side.
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -145,6 +172,7 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 - React 19
 - TypeScript
 - Supabase Auth, PostgreSQL, Storage, RLS and RPCs
+- Gemini API for AI-assisted recipe extraction
 - TanStack React Query
 - Zod and React Hook Form
 - Tailwind CSS
@@ -170,7 +198,7 @@ For the deeper product reasoning, see [`docs/PRODUCT_CASE_STUDY.md`](docs/PRODUC
 The private source repository remains separate. This showcase does not contain:
 
 - production Supabase identifiers or URLs
-- real credentials or environment files
+- Gemini API keys or other credentials
 - private family recipe data or user accounts
 - database migration history
 - production operational scripts
@@ -182,5 +210,5 @@ See [`SECURITY.md`](SECURITY.md).
 ---
 
 **Project:** Family Recipes  
-**Status:** Product in development  
-**Focus:** Product management · information architecture · mobile UX · collaborative workflows · technical execution
+**Status:** Live private family product  
+**Focus:** Product management · AI-assisted workflows · information architecture · mobile UX · collaborative workflows · technical execution
