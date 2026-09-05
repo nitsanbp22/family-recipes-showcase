@@ -1,10 +1,23 @@
 # Family Recipes | Shared Family Recipe Library & PWA
 
-Family Recipes is a live, private family product for turning scattered recipes into a shared library that is easy to capture, organize, search, cook from, and maintain together.
+Family Recipes is a **live, private family product** for turning scattered recipes into a shared library that is easy to capture, organize, search, cook from, and maintain together.
 
 The product is deployed under a custom domain and is used primarily by my family. It combines collaborative recipe management with AI-assisted intake so recipes can move from links, text, screenshots, and images into a structured library with less manual work.
 
 > **Portfolio showcase:** this repository is a curated snapshot of product thinking and selected engineering work from a private production codebase. Production identifiers, credentials, Gemini API credentials, private family data, deployment configuration, migration history, and operational scripts are intentionally excluded.
+
+## Product preview
+
+![Family Recipes library home](assets/screenshots/family-home-desktop.png)
+
+<p align="center">
+  <img src="assets/screenshots/family-add-recipe-desktop.png" width="49%" alt="Multiple recipe capture paths" />
+  <img src="assets/screenshots/family-ai-review-desktop.png" width="49%" alt="Gemini-assisted extraction review" />
+</p>
+
+The live experience combines a searchable recipe library, family-managed taxonomy, multiple intake paths, AI-assisted extraction, collaboration, and a mobile-first cooking context.
+
+See the full [Product Walkthrough](docs/PRODUCT_WALKTHROUGH.md).
 
 ## Product problem
 
@@ -55,6 +68,8 @@ The app supports multiple intake paths so saving a recipe does not depend on man
 
 A shared intake model keeps the downstream experience consistent regardless of where the recipe originated.
 
+![Recipe capture options](assets/screenshots/family-add-recipe-desktop.png)
+
 ### AI-assisted extraction with Gemini
 
 Gemini is used through a server-side API workflow to help transform unstructured recipe inputs into structured recipe data.
@@ -68,6 +83,8 @@ Depending on the source, the system can work from text or images and propose fie
 
 The AI result is not treated as final truth. Extracted content moves through a review step before it becomes part of the family library, keeping the user in control and making uncertainty visible instead of silently saving low-confidence output.
 
+![Gemini-assisted extraction review](assets/screenshots/family-ai-review-desktop.png)
+
 See [`docs/AI_RECIPE_INTAKE.md`](docs/AI_RECIPE_INTAKE.md).
 
 ### Searchable family knowledge
@@ -75,6 +92,8 @@ See [`docs/AI_RECIPE_INTAKE.md`](docs/AI_RECIPE_INTAKE.md).
 Recipes are modeled as structured content rather than flat notes. The product supports ingredients, steps, notes, images, categories, tags, folders, favorites, source links, and archive state.
 
 This makes the collection useful as it grows instead of becoming another unsearchable message history.
+
+![Family-managed categories and tags](assets/screenshots/family-taxonomy-desktop.png)
 
 ### Duplicate prevention
 
@@ -97,6 +116,10 @@ See [`code-samples/permissions/permissions.config.ts`](code-samples/permissions/
 ### Mobile-first PWA
 
 The product is designed for the context in which recipes are actually found and used: on a phone. PWA behavior, responsive RTL UI, share-target intake, private images, and limited offline reading are part of the product model rather than desktop features adapted later.
+
+<p align="center">
+  <img src="assets/screenshots/family-mobile-ingredients.png" width="38%" alt="Mobile recipe ingredients editing" />
+</p>
 
 ## My role
 
@@ -189,9 +212,12 @@ This showcase contains a small number of real, sanitized modules from the privat
 
 The showcase is intentionally not a deployable production copy.
 
-## Product case study
+## Case study documentation
 
-For the deeper product reasoning, see [`docs/PRODUCT_CASE_STUDY.md`](docs/PRODUCT_CASE_STUDY.md).
+- [Product Walkthrough](docs/PRODUCT_WALKTHROUGH.md)
+- [Product Case Study](docs/PRODUCT_CASE_STUDY.md)
+- [AI Recipe Intake](docs/AI_RECIPE_INTAKE.md)
+- [Architecture](docs/ARCHITECTURE.md)
 
 ## Repository scope
 
