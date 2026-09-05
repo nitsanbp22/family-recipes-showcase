@@ -1,0 +1,25 @@
+# Environment and credentials
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+
+# Local tooling
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Test artifacts
+test-results/
+playwright-report/
+
+# Production/internal tooling
+supabase/.temp/
+.agents/
